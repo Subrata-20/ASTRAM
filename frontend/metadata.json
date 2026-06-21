@@ -1,0 +1,6 @@
+{
+  "name": "ASTRAM Intelligence",
+  "description": "Real-time incident reporting and impact analysis module for high-stakes traffic command centers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

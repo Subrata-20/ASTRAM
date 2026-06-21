@@ -1,0 +1,6 @@
+{
+  "priority_accuracy": 0.9988,
+  "closure_accuracy": 0.9254,
+  "duration_mae_minutes": 7751.88,
+  "duration_r2": 0.1753
+}
