@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AlertTriangle, Map, HelpCircle, ShieldAlert, BarChart3, Radio, CheckCircle, Construction, Route, Clock, Percent, X, Maximize2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import { Incident } from '../types';
+import { API_BASE_URL } from '../config';
 
 interface ResultsViewProps {
   incidents: Incident[];
@@ -31,7 +32,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
       try {
         setMainRouteText("Loading...");
         setAltRouteText("Loading...");
-        const res = await fetch(`http://localhost:8000/route/diversion?incident_lat=${activeIncident.lat}&incident_lng=${activeIncident.lng}`);
+        const res = await fetch(`${API_BASE_URL}/route/diversion?incident_lat=${activeIncident.lat}&incident_lng=${activeIncident.lng}`);
         if (res.ok) {
           const data = await res.json();
           if (data.main_route) {

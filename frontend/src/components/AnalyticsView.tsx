@@ -12,6 +12,7 @@ import {
   Bar, 
   Cell 
 } from 'recharts';
+import { API_BASE_URL } from '../config';
 
 export const AnalyticsView: React.FC = () => {
   const [timeRange, setTimeRange] = useState<'24H' | '7D' | '30D'>('7D');
@@ -30,7 +31,7 @@ export const AnalyticsView: React.FC = () => {
     if (timeRange === '24H') days = 1;
     if (timeRange === '30D') days = 30;
 
-    fetch(`http://localhost:8000/analytics?days=${days}`)
+    fetch(`${API_BASE_URL}/analytics?days=${days}`)
       .then(res => res.json())
       .then(data => {
         if (data.error) return;

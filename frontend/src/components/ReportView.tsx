@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { FileEdit, ArrowRight, Compass, Crosshair, MapPin } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { Incident } from '../types';
+import { API_BASE_URL } from '../config';
 
 const LocationMarker = ({ position, setPosition, setDidClickMap }: { position: any, setPosition: any, setDidClickMap: any }) => {
   useMapEvents({
@@ -48,7 +49,7 @@ export const ReportView: React.FC<ReportViewProps> = ({
     const dayOfWeek = d.getDay() === 0 ? 6 : d.getDay() - 1;
 
     try {
-      const res = await fetch('http://localhost:8000/predict', {
+      const res = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

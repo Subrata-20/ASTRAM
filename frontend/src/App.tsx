@@ -13,6 +13,7 @@ import { DashboardView } from './components/DashboardView';
 import { ReportView } from './components/ReportView';
 import { ResultsView } from './components/ResultsView';
 import { AnalyticsView } from './components/AnalyticsView';
+import { API_BASE_URL, WS_BASE_URL } from './config';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -90,7 +91,7 @@ export default function App() {
 
   // Fetch initial sample data
   useEffect(() => {
-    fetch('http://localhost:8000/events/sample?count=10')
+    fetch(`${API_BASE_URL}/events/sample?count=10`)
       .then(res => res.json())
       .then(data => {
         if (data && data.events) {
@@ -107,7 +108,7 @@ export default function App() {
   // WebSocket Connection
   const wsRef = useRef<WebSocket | null>(null);
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/ws/live-events');
+    const ws = new WebSocket(`${WS_BASE_URL}/ws/live-events`);
     wsRef.current = ws;
 
     ws.onopen = () => console.log('WebSocket connected to backend');
