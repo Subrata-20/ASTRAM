@@ -32,6 +32,7 @@ Before you begin, ensure you have met the following requirements:
 * **Node.js** (v18.0.0 or higher)
 * **Python** (v3.10.0 or higher)
 * **Google Gemini API Key** (Required for the AI context generation)
+* **OpenRouteService (ORS) API Key** (Required for generating diversion routes)
 
 ---
 
@@ -57,8 +58,9 @@ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Environment Variables
-# Create a .env file in the /backend directory and add your Gemini API Key:
-echo "GEMINI_API_KEY=your_actual_api_key_here" > .env
+# Create a .env file in the /backend directory and add your API keys:
+echo "GEMINI_API_KEY=your_gemini_api_key_here" > .env
+echo "ORS_API_KEY=your_openrouteservice_api_key_here" >> .env
 ```
 
 ### 3. Frontend Setup
