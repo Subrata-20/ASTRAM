@@ -18,6 +18,7 @@ import { API_BASE_URL, WS_BASE_URL } from './config';
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [incidents, setIncidents] = useState<Incident[]>([]);
+  const [isLoadingIncidents, setIsLoadingIncidents] = useState<boolean>(true);
   const [selectedIncidentId, setSelectedIncidentId] = useState<string>('');
   const [searchValue, setSearchValue] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -101,8 +102,12 @@ export default function App() {
             setSelectedIncidentId(mapped[0].id);
           }
         }
+        setIsLoadingIncidents(false);
       })
-      .catch(err => console.error('Failed to fetch initial events:', err));
+      .catch(err => {
+        console.error('Failed to fetch initial events:', err);
+        setIsLoadingIncidents(false);
+      });
   }, []);
 
   // WebSocket Connection
@@ -205,6 +210,7 @@ export default function App() {
               onNavigateToResults={() => setActiveTab('results')}
               setActiveTab={setActiveTab}
               setSelectedIncidentId={setSelectedIncidentId}
+              isLoadingIncidents={isLoadingIncidents}
             />
           )}
 

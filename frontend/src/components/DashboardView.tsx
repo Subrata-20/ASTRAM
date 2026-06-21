@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, TrendingUp, Clock, Heading, ShieldAlert, BarChart3, ChevronRight, Check } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Clock, Heading, ShieldAlert, BarChart3, ChevronRight, Check, Loader2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { Incident } from '../types';
@@ -18,6 +18,7 @@ interface DashboardViewProps {
   onNavigateToResults: () => void;
   setActiveTab: (tab: 'dashboard' | 'report' | 'results' | 'analytics') => void;
   setSelectedIncidentId: (id: string) => void;
+  isLoadingIncidents: boolean;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -25,7 +26,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onSelectIncident,
   onNavigateToResults,
   setActiveTab,
-  setSelectedIncidentId
+  setSelectedIncidentId,
+  isLoadingIncidents
 }) => {
   const [selectedPin, setSelectedPin] = useState<Incident | null>(incidents[0] || null);
   const [mapHoverInfo, setMapHoverInfo] = useState<string | null>(null);
@@ -267,7 +269,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
             {/* Scrollable Feed stream */}
             <div className="flex-1 overflow-y-auto px-4 py-3 pb-8 flex flex-col gap-3 scrollbar-hide">
-              {incidents.slice().reverse().map((inc) => {
+              {isLoadingIncidents ? (
+                <div className="flex flex-col items-center justify-center h-full text-[#859398] gap-3 mt-12">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#00d4ff]" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#00d4ff]">Establishing Uplink...</span>
+                </div>
+              ) : incidents.slice().reverse().map((inc) => {
                 const isSelected = selectedPin?.id === inc.id;
                 
                 // Set emoji and priority color classes based on incident type
