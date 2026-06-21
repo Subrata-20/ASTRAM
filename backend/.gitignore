@@ -57,9 +57,7 @@ venv.bak/
 htmlcov/
 
 # Datasets and Documents
-*.csv
-data/raw/
-Astram*
+# (Removed CSV restrictions because the backend analytics routes use the raw dataset)
 
 # ML Trained Models
 # (Removed models/saved/ from gitignore because the deployed backend needs the trained JSON/PKL models to run)
