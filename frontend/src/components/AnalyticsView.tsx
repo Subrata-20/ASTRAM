@@ -65,13 +65,59 @@ export const AnalyticsView: React.FC = () => {
       .catch(err => console.error("Failed to fetch analytics", err));
   }, [timeRange]);
 
+  const generateCSV = () => {
+    let csv = "ASTRAM Analytics Export\n\n";
+    
+    csv += "--- KPI Summary ---\n";
+    csv += `Total Events Logged,${backendStats.total}\n`;
+    csv += `Unique Causes,${backendStats.causes}\n`;
+    csv += `Duration Records,${backendStats.records}\n`;
+    csv += `Coverage,${backendStats.coverage}\n\n`;
+
+    csv += `--- Incident Volume (${timeRange}) ---\n`;
+    csv += "Time/Period,Actual Events,Baseline Events\n";
+    volumeData.forEach(row => {
+      csv += `${row.time},${row.events},${row.baseline}\n`;
+    });
+    csv += "\n";
+
+    csv += "--- Median Resolution Time by Cause ---\n";
+    csv += "Cause,Minutes\n";
+    resolutionData.forEach(row => {
+      csv += `"${row.cause}",${row.mins}\n`;
+    });
+    csv += "\n";
+
+    csv += "--- Road Closure Likelihood ---\n";
+    csv += "Cause,Probability (%)\n";
+    closureData.forEach(row => {
+      csv += `"${row.cause}",${row.prob}%\n`;
+    });
+
+    return csv;
+  };
+
   const handleExport = () => {
     setIsExporting(true);
-    setTimeout(() => {
+    
+    try {
+      const csvContent = generateCSV();
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `astram_analytics_${timeRange}_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
       setIsExporting(false);
       setExportSuccess(true);
       setTimeout(() => setExportSuccess(false), 3000);
-    }, 1500);
+    } catch (error) {
+      console.error("Export failed", error);
+      setIsExporting(false);
+    }
   };
 
   const handleImpute = () => {
